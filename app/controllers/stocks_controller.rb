@@ -13,12 +13,16 @@ class StocksController < ApplicationController
           end
         end
       else
-        flash[:alert] = "Could not find the stock"
-        redirect_to my_portofolio_path
+        respond_to do |format|
+          flash.now[:alert] = "Please enter a valid symbol to search"
+          format.js { render partial: 'users/result'}
+        end
       end
     else
-      flash[:alert] = "Please enter a symbol to search"
-      redirect_to my_portofolio_path
+      respond_to do |format|
+        flash.now[:alert] = "Could not find the stock, something is wrong with your search"
+        format.js { render partial: 'users/result'}
+      end
     end
   end
 end
